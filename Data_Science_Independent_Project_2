@@ -1,0 +1,8 @@
+--Here is the solve for the DSIP#2 from CodeAcademy presented in following link:
+--https://discuss.codecademy.com/t/data-science-independent-project-2-explore-a-sample-database/419945 
+
+--BASIC
+--Top 100 tracks by appearance in playlists.
+select tracks.Name, count(*) as 'In_X_PlayLists' 
+from playlist_track JOIN tracks on tracks.TrackId = playlist_track.TrackId
+group by tracks.TrackId order by 2 DESC LIMIT 100;
