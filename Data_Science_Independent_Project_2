@@ -6,3 +6,23 @@
 select tracks.Name, count(*) as 'In_X_PlayLists' 
 from playlist_track JOIN tracks on tracks.TrackId = playlist_track.TrackId
 group by tracks.TrackId order by 2 DESC LIMIT 100;
+
+--Top 10 tracks by revenue generated
+select tracks.Name, sum(invoice_items.UnitPrice * invoice_items.Quantity) as 'Total_Revenue'
+from tracks JOIN invoice_items
+on tracks.TrackId = invoice_items.TrackId 
+GROUP by tracks.TrackId ORDER by 2 DESC LIMIT 10; 
+
+--Top 10 albums by revenue generated
+SELECT albums.Title, sum(invoice_items.UnitPrice * invoice_items.Quantity) as 'Total_Revenue'
+FROM albums
+JOIN tracks on albums.AlbumId = tracks.AlbumId
+JOIN invoice_items on invoice_items.TrackId = tracks.TrackId
+GROUP BY albums.AlbumId ORDER BY 2 DESC LIMIT 10;
+
+--Top 10 genres by revenue generated
+SELECT genres.Name, round(sum(invoice_items.UnitPrice * invoice_items.Quantity),2)
+as 'Total_Revenue' from genres
+JOIN tracks on tracks.GenreId = genres.GenreId
+JOIN invoice_items on tracks.TrackId = invoice_items.TrackId
+GROUP BY genres.GenreId ORDER BY 2 DESC LIMIT 10;
